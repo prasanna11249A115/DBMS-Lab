@@ -1,0 +1,167 @@
+SQL> create table stu(
+  2  reno varchar2(10),
+  3  name char(10),
+  4  course char(10),
+  5  dob date,
+  6  year number(2)
+  7  );
+
+Table created.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table stu2 as select* from stu;
+
+Table created.
+
+SQL> desc stu2
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> create table stu3 as select reno,name,course from stu;
+
+Table created.
+
+SQL> desc stu3
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+
+SQL> insert into stu values("a115","prasanna","CSE","14-dec-2006",3);
+insert into stu values("a115","prasanna","CSE","14-dec-2006",3)
+                                               *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into stu values("a115","prasanna","CSE","14-dec-2006",03);
+insert into stu values("a115","prasanna","CSE","14-dec-2006",03)
+                                               *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into stu values("a115","prasanna","CSE','14-dec-2006',03);
+ERROR:
+ORA-01740: missing double quote in identifier
+
+
+SQL> insert into stu values('a115','prasanna','CSE','14-dec-2006',03);
+
+1 row created.
+
+SQL> select* from stu;
+
+RENO       NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+a115       prasanna   CSE        14-DEC-06          3
+
+SQL> insert into stu (reno,name) values ('A075','rekha')
+  2
+SQL> insert into stu (reno,name) values ('A075','rekha');
+
+1 row created.
+
+SQL> select* from stu;
+
+RENO       NAME       COURSE     DOB             YEAR
+---------- ---------- ---------- --------- ----------
+a115       prasanna   CSE        14-DEC-06          3
+A075       rekha
+
+SQL> create table stu6 as select* from stu where 7>9;
+
+Table created.
+
+SQL>
+SQL> select* from stu6;
+
+no rows selected
+
+SQL> desc stu6
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(10)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> alter table stu modify name char(15);
+
+Table altered.
+
+SQL> desc stu;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(15)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> insert into stu values ('&regno','&name','&course','&dob',&year);
+Enter value for regno: 001
+Enter value for name: sam
+Enter value for course: cse
+Enter value for dob: 14-jul-2007
+Enter value for year: 6
+old   1: insert into stu values ('&regno','&name','&course','&dob',&year)
+new   1: insert into stu values ('001','sam','cse','14-jul-2007',6)
+
+1 row created.
+
+SQL> /
+Enter value for regno: 066
+Enter value for name: likitha
+Enter value for course: ece
+Enter value for dob: 14-jan-2009
+Enter value for year: 3
+old   1: insert into stu values ('&regno','&name','&course','&dob',&year)
+new   1: insert into stu values ('066','likitha','ece','14-jan-2009',3)
+
+1 row created.
+
+SQL> desc stu
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ RENO                                               VARCHAR2(10)
+ NAME                                               CHAR(15)
+ COURSE                                             CHAR(10)
+ DOB                                                DATE
+ YEAR                                               NUMBER(2)
+
+SQL> select* from stu
+  2  select* from stu
+  3
+SQL> select* from stu;
+
+RENO       NAME            COURSE     DOB             YEAR
+---------- --------------- ---------- --------- ----------
+a115       prasanna        CSE        14-DEC-06          3
+A075       rekha
+001        sam             cse        14-JUL-07          6
+066        likitha         ece        14-JAN-09          3
+
+SQL> select*from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+STU6                           TABLE
+STU3                           TABLE
+STU2                           TABLE
+STU                            TABLE
