@@ -1,0 +1,163 @@
+
+SQL> create table stu_marks (
+  2  stuid number(8) PRIMARY KEY,
+  3  stuname varchar2(10),
+  4  department varchar2(5),
+  5  marks number(3)
+  6  );
+
+Table created.
+
+SQL> desc stu_marks;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUID                                     NOT NULL NUMBER(8)
+ STUNAME                                            VARCHAR2(10)
+ DEPARTMENT                                         VARCHAR2(5)
+ MARKS                                              NUMBER(3)
+
+SQL> insert into stu_marks values(01,'abc','CSE',75);
+
+1 row created.
+
+SQL> insert into stu_marks values(02,'def','ECE',85);
+
+1 row created.
+
+SQL> insert into stu_marks values(03,'ghi','EEE',95);
+
+1 row created.
+
+SQL> insert into stu_marks values(04,'jkl','CMA',105);
+
+1 row created.
+
+SQL> insert into stu_marks values(05,'mno','MBA',115);
+
+1 row created.
+
+SQL> insert into stu_marks values(06,'pqr','CSE',125);
+
+1 row created.
+
+SQL> select*from stu_marks;
+
+     STUID STUNAME    DEPAR      MARKS
+---------- ---------- ----- ----------
+         1 abc        CSE           75
+         2 def        ECE           85
+         3 ghi        EEE           95
+         4 jkl        CMA          105
+         5 mno        MBA          115
+         6 pqr        CSE          125
+
+6 rows selected.
+
+SQL> select count(*) as total_students from stu_marks;
+
+TOTAL_STUDENTS
+--------------
+             6
+
+SQL> select sum(marks) as total_marks from stu_marks;
+
+TOTAL_MARKS
+-----------
+        600
+
+SQL> select avg(marks) as average_marks from stu_marks;
+
+AVERAGE_MARKS
+-------------
+          100
+
+SQL> select max(marks) as highest_marks from stu_marks;
+
+HIGHEST_MARKS
+-------------
+          125
+
+SQL> select min(marks) as lowest_marks from stu_marks;
+
+LOWEST_MARKS
+------------
+          75
+
+SQL> select department,avg(marks) as avg_marks from stu_marks group by department;
+
+DEPAR  AVG_MARKS
+----- ----------
+MBA          115
+EEE           95
+CMA          105
+CSE          100
+ECE           85
+
+SQL> select department,count(*) as total_student from stu_marks group by department;
+
+DEPAR TOTAL_STUDENT
+----- -------------
+MBA               1
+EEE               1
+CMA               1
+CSE               2
+ECE               1
+
+SQL> select department,max(marks) as max_marks from stu_marks group by department;
+
+DEPAR  MAX_MARKS
+----- ----------
+MBA          115
+EEE           95
+CMA          105
+CSE          125
+ECE           85
+
+SQL> select department,avg(marks) as avg_marks from stu_marks group by department;
+
+DEPAR  AVG_MARKS
+----- ----------
+MBA          115
+EEE           95
+CMA          105
+CSE          100
+ECE           85
+
+SQL> select department,count(*) as total_students from stu_marks group by department having count(*)>1;
+
+DEPAR TOTAL_STUDENTS
+----- --------------
+CSE                2
+
+SQL> select department,count(*) as total_students,avg(marks) as average_marks,max(marks) as highest_marks from stu_marks group by department;
+
+DEPAR TOTAL_STUDENTS AVERAGE_MARKS HIGHEST_MARKS
+----- -------------- ------------- -------------
+MBA                1           115           115
+EEE                1            95            95
+CMA                1           105           105
+CSE                2           100           125
+ECE                1            85            85
+
+SQL> select department,count(*) as total_students,avg(marks) as average_marks,max(marks) as highest_marks from stu_marks group by department having avg(marks)>80;
+
+DEPAR TOTAL_STUDENTS AVERAGE_MARKS HIGHEST_MARKS
+----- -------------- ------------- -------------
+MBA                1           115           115
+EEE                1            95            95
+CMA                1           105           105
+CSE                2           100           125
+ECE                1            85            85
+
+SQL> select department,count(*) as total_students,avg(marks) as average_marks,max(marks) as highest_marks from stu_marks group by department having avg(marks)>105;
+
+DEPAR TOTAL_STUDENTS AVERAGE_MARKS HIGHEST_MARKS
+----- -------------- ------------- -------------
+MBA                1           115           115
+
+SQL> select department,count(*) as total_students,avg(marks) as average_marks,max(marks) as highest_marks from stu_marks group by department having avg(marks)>=105;
+
+DEPAR TOTAL_STUDENTS AVERAGE_MARKS HIGHEST_MARKS
+----- -------------- ------------- -------------
+MBA                1           115           115
+CMA                1           105           105
