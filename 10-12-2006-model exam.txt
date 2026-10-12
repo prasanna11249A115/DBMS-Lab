@@ -1,0 +1,210 @@
+SQL*Plus: Release 11.2.0.1.0 Production on Mon Oct 12 10:57:10 2026
+
+Copyright (c) 1982, 2010, Oracle.  All rights reserved.
+
+Enter user-name: A115@db2021
+Enter password:
+
+Connected to:
+Oracle Database 11g Release 11.2.0.1.0 - Production
+
+SQL>
+SQL> CREATE table LIBRARY (
+  2  BOOK_id Number PRIMARY KEY,
+  3  TITLE varchar2(50),
+  4  AUTHOR varchar2(50),
+  5  GENRE varchar2(50),
+  6  PRICE Number(10,2)
+  7  );
+
+Table created.
+
+SQL> insert into LIBRARY values(01,'abc','xyz','A',2000);
+
+1 row created.
+
+SQL> insert into LIBRARY values(02,'def','uvw','B',3000);
+
+1 row created.
+
+SQL> insert into LIBRARY values(03,'ghi','rst','Science',4000);
+
+1 row created.
+
+SQL> insert into LIBRARY values(04,'jkl','opq','D',2000);
+
+1 row created.
+
+SQL> SELECT TITLE,AUTHOR from LIBRARY;
+
+TITLE
+--------------------------------------------------
+AUTHOR
+--------------------------------------------------
+abc
+xyz
+
+def
+uvw
+
+ghi
+rst
+
+
+TITLE
+--------------------------------------------------
+AUTHOR
+--------------------------------------------------
+jkl
+opq
+
+SQL> SELECT* from LIBRARY where GENRE = 'Science';
+
+   BOOK_ID TITLE
+---------- --------------------------------------------------
+AUTHOR
+--------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         3 ghi
+rst
+Science                                                  4000
+
+
+SQL> SELECT* from LIBRARY where PRICE <500;
+
+no rows selected
+
+SQL> SELECT* from LIBRARY order by PRICE desc;
+
+   BOOK_ID TITLE
+---------- --------------------------------------------------
+AUTHOR
+--------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+         3 ghi
+rst
+Science                                                  4000
+
+         2 def
+uvw
+B                                                        3000
+
+   BOOK_ID TITLE
+---------- --------------------------------------------------
+AUTHOR
+--------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+
+         1 abc
+xyz
+A                                                        2000
+
+         4 jkl
+opq
+
+   BOOK_ID TITLE
+---------- --------------------------------------------------
+AUTHOR
+--------------------------------------------------
+GENRE                                                   PRICE
+-------------------------------------------------- ----------
+D                                                        2000
+
+SQL> CREATE table EMPLOYEE(
+  2  EMP_ID number PRIMARY KEY,
+  3  EMP_NAME varchar2(20),
+  4  DEPT varchar2(20),
+  5  SALARY number(10,2)
+  6  );
+
+Table created.
+
+SQL> CREATE table MANAGER(
+  2  EMP_NAME varchar2(20)
+  3  );
+
+Table created.
+
+SQL> insert into EMPLOYEE values(01,'ravi','HR',20000);
+
+1 row created.
+
+SQL> insert into EMPLOYEE values(02,'raju','finance',15000);
+
+1 row created.
+
+SQL> insert into EMPLOYEE values(03,'kiran','intern',10000);
+
+1 row created.
+
+SQL> insert into EMPLOYEE values(04,'aditya','developer',15000);
+
+1 row created.
+
+SQL> insert into MANAGER values('ravi');
+
+1 row created.
+
+
+SQL> SELECT EMP_ID,EMP_NAME,DEPT,SALARY
+  2  FROM EMPLOYEE
+  3  WHERE DEPT IN ('HR','finance');
+
+    EMP_ID EMP_NAME             DEPT                     SALARY
+---------- -------------------- -------------------- ----------
+         1 ravi                 HR                        20000
+         2 raju                 finance                   15000
+
+
+SQL> SELECT E.EMP_NAME,E.EMP_ID,E.DEPT,E.SALARY
+  2  FROM EMPLOYEE E
+  3  WHERE EXISTS(
+  4  SELECT 1
+  5  FROM MANAGER M
+  6  WHERE M.EMP_NAME = E.EMP_NAME
+  7  );
+
+EMP_NAME                 EMP_ID DEPT                     SALARY
+-------------------- ---------- -------------------- ----------
+ravi                          1 HR                        20000
+
+
+SQL> SELECT E.EMP_NAME,E.EMP_ID,E.DEPT,E.SALARY
+  2  FROM EMPLOYEE E
+  3  WHERE NOT EXISTS(
+  4  SELECT 1
+  5  FROM MANAGER M
+  6  WHERE M.EMP_NAME = E.EMP_NAME
+  7  );
+
+EMP_NAME                 EMP_ID DEPT                     SALARY
+-------------------- ---------- -------------------- ----------
+kiran                         3 intern                    10000
+aditya                        4 developer                 15000
+raju                          2 finance                   15000
+
+SQL> SELECT EMP_NAME FROM EMPLOYEE
+  2  UNION
+  3  SELECT EMP_NAME FROM MANAGER
+  4  ;
+
+EMP_NAME
+--------------------
+aditya
+kiran
+raju
+ravi
+
+SQL> SELECT EMP_NAME FROM EMPLOYEE
+  2  INTERSECT
+  3  SELECT EMP_NAME FROM MANAGER
+  4  ;
+
+EMP_NAME
+--------------------
+ravi
+
+SQL>
